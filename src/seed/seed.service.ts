@@ -1,22 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class SeedService {
-    private active_nodes: string[] = [
-        // "http://localhost:3000",
-        // "http://localhost:3001",
-        // "http://localhost:3002",
-        // "http://localhost:3003",
-        // "http://localhost:3004",
-    ]
+  private active_nodes: Record<string, string> = {};
 
-    getActiveNodeList(): string[] {
-        return this.active_nodes
-    }
+  getActiveNodeList(): string[] {
+    return Object.values(this.active_nodes);
+  }
 
-    addToActiveNodeList(addr: string) : void {
-        this.active_nodes.push(addr)
-        this.active_nodes = [... new Set(this.active_nodes)]
-        console.log(this.active_nodes)
+  addToActiveNodeList(id: string, addr: string): void {
+    if (Object.values(this.active_nodes).includes(addr)) {
+      return;
     }
+    this.active_nodes[id] = addr;
+    console.log(this.active_nodes);
+  }
+
+  removeFromActiveNodeList(id: string): void {
+    delete this.active_nodes[id];
+  }
 }
