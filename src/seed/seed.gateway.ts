@@ -21,14 +21,14 @@ export class SeedGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.seedService.addToActiveNodeList(client.id, query.addr);
     this.logger.verbose(`New node connected [${client.id}]`);
     this.server.emit("node_info_res", this.seedService.getActiveNodeList());
-    this.logger.debug(`Node list updated [${this.seedService.getActiveNodeList()}]`);
+    this.logger.debug(`Node list updated [${JSON.stringify(this.seedService.getActiveNodeList(), null, 2)}]`);
   }
 
   handleDisconnect(client: any) {
     this.seedService.removeFromActiveNodeList(client.id);
     this.logger.warn(`Node disconnected [${client.id}]`);
-    this.logger.debug(`Node list updated [${this.seedService.getActiveNodeList()}]`);
-    this.server.emit("node_info_res", this.seedService.getActiveNodeList());
+    this.logger.debug(`Node list updated [${JSON.stringify(this.seedService.getActiveNodeList(), null, 2)}]`);
+    this.server.emit("node_disconnected", client.id);
   }
 
   @SubscribeMessage("node_info_req")

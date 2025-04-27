@@ -4,8 +4,8 @@ import { Injectable } from "@nestjs/common";
 export class SeedService {
   private active_nodes: Record<string, string> = {};
 
-  getActiveNodeList(): string[] {
-    return Object.values(this.active_nodes);
+  getActiveNodeList() {
+    return this.active_nodes;
   }
 
   addToActiveNodeList(id: string, addr: string): void {
